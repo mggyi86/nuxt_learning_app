@@ -28,6 +28,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '~/assets/styles/main.css'
   ],
 
   /*
@@ -59,7 +60,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   }
 }
