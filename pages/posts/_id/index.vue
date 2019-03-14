@@ -19,26 +19,28 @@
 
 <script>
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          title: 'First Post (ID: ' + context.route.params.id + ')',
-          previewText: 'This is our first post!',
-          author: 'John Doe',
-          updatedDate: new Date(),
-          content: 'Some dummy text which is definitely not the preview text though!',
-          thumbnail: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'
+  asyncData(context) {
+    return context.$axios.get('https://nuxt-blog-979c8.firebaseio.com/posts/' + context.params.id + '.json')
+      .then(res => {
+        return {
+          loadedPost: res.data
         }
       })
-    },1000);
-  },
-  // data() {
-  //   return {
-
-  //   }
-  // }
+      .catch(e => context.error(e))
+    // setTimeout(() => {
+    //   callback(null, {
+    //     loadedPost: {
+    //       id: '1',
+    //       title: 'First Post (ID: ' + context.route.params.id + ')',
+    //       previewText: 'This is our first post!',
+    //       author: 'John Doe',
+    //       updatedDate: new Date(),
+    //       content: 'Some dummy text which is definitely not the preview text though!',
+    //       thumbnail: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg'
+    //     }
+    //   })
+    // },1000);
+  }
 }
 </script>
 
