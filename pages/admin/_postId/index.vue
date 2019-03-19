@@ -24,8 +24,11 @@ export default {
     }
   },
   asyncData(context) {
-    return context.$axios.get(
-      'https://nuxt-blog-979c8.firebaseio.com/posts/' + context.params.postId + '.json'
+    // return context.$axios.get(
+    //   process.env.baseUrl + '/posts/' + context.params.postId + '.json'
+    //   )
+    return context.app.$axios.get(
+      '/posts/' + context.params.postId + '.json'
       )
       .then(res => {
         return {

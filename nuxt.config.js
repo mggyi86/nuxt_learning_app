@@ -8,7 +8,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: 'WD Blog',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -23,7 +23,11 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#fa923f', height: '4px', duration: 5000 },
+  // loadingIndicator: {
+  //   name: 'circle',
+  //   color: '#fa923f'
+  // },
 
   /*
   ** Global CSS
@@ -36,6 +40,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/core-components.js',
+    '~plugins/date-filter.js'
   ],
 
   /*
@@ -51,6 +57,8 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'https://nuxt-blog-979c8.firebaseio.com',
+    credentials: false
   },
 
   /*
@@ -63,5 +71,15 @@ module.exports = {
     extend(config, ctx) {
 
     }
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-979c8.firebaseio.com'
+  },
+  // router: {
+  //   linkActiveClass: 'active'
+  // },
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
 }

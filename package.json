@@ -12,15 +12,15 @@
     "dev1": "cross-env NUXT_HOST=0.0.0.0 NUXT_PORT=3333 nuxt"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.4.1",
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.0",
     "nuxt": "^2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-prettier": "2.6.2",
+    "nodemon": "^1.18.9",
     "prettier": "1.14.3"
   }
 }

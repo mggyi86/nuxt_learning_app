@@ -5,16 +5,19 @@
 </template>
 
 <script>
-import PostList from '@/components/Posts/PostList'
+// import PostList from '@/components/Posts/PostList'
 
 export default {
-  components: {
-    PostList
-  },
+  // components: {
+  //   PostList
+  // },
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts
     }
+  },
+  head: {
+    title : 'Blog Title'
   }
   // fetch(context) {
   //   if (context.store.state.loadedPosts > 0) {
