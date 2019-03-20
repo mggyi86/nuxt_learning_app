@@ -20,6 +20,7 @@ export default {
   //   PostList,
   //   AppButton
   // },
+  middleware: 'auth',
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts

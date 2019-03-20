@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedPosts: []
+      loadedPosts: [],
+      token: null
     },
     mutations: {
       setPosts(state, posts) {
@@ -17,6 +18,12 @@ const createStore = () => {
           post => post.id === editedPost.id
         );
         state.loadedPosts[postIndex] = editedPost;
+      },
+      setToken(state, token) {
+        state.token = token;
+      },
+      clearToken(state) {
+        state.token = null
       }
     },
     actions: {
@@ -54,13 +61,35 @@ const createStore = () => {
       setPosts(vuexConText, posts) {
         vuexConText.commit('setPosts', posts)
       },
+      authenticateUser(vuexConText, authData) {
+        let authUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +
+          process.env.fbAPIKey
+        if (!authData.isLogin) {
+          authUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' +
+            process.env.fbAPIKey
+        }
+        return this.$axios.post(authUrl, {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        })
+        .then(result => {
+          vuexConText.commit('setToken', result.data.idToken);
+          console.log(result);
+          vuexConText.dispatch('setLogoutTimer', result.data.expiresIn * 1000)
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      },
       addPost(vuexConText, post) {
         const createdPost = {
           ...post,
           updatedDate: new Date()
         };
 
-        return this.$axios.post('https://nuxt-blog-979c8.firebaseio.com/posts.json', createdPost)
+        return this.$axios.post('https://nuxt-blog-979c8.firebaseio.com/posts.json?auth=' + vuexConText.state.token,
+          createdPost)
         // return this.$axios.post('/posts.json', createdPost)
           .then(result => {
             vuexConText.commit('addPost', { ...createdPost, id: result.data.name })
@@ -69,7 +98,8 @@ const createStore = () => {
       },
       editPost(vuexConText, editedPost) {
         return this.$axios.put(
-            'https://nuxt-blog-979c8.firebaseio.com/posts/' + editedPost.id + '.json', editedPost
+            'https://nuxt-blog-979c8.firebaseio.com/posts/' + editedPost.id + '.json?auth=' + vuexConText.state.token,
+            editedPost
           )
         // return this.$axios.put(
         //     '/posts/' + editedPost.id + '.json', editedPost
@@ -80,10 +110,18 @@ const createStore = () => {
           })
           .catch(e => console.log(e));
       },
+      setLogoutTimer(vuexConText, duration) {
+        setTimeout(() => {
+          vuexConText.commit('clearToken')
+        }, duration)
+      }
     },
     getters: {
       loadedPosts(state) {
-        return state.loadedPosts
+        return state.loadedPosts;
+      },
+      isAuthenticated(state) {
+        return state.token != null;
       }
     }
   })

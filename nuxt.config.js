@@ -73,11 +73,13 @@ module.exports = {
     }
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-979c8.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxt-blog-979c8.firebaseio.com',
+    fbAPIKey: 'AIzaSyDSwAiPSzAga9kmAnSaiYgC8XO6Buqo0wQ'
   },
-  // router: {
-  //   linkActiveClass: 'active'
-  // },
+  router: {
+    // linkActiveClass: 'active'
+    // middleware: 'log'
+  },
   transition: {
     name: 'fade',
     mode: 'out-in'
