@@ -11,7 +11,7 @@ export default {
   // components: {
   //   PostList
   // },
-  middleware: 'log',
+  // middleware: 'log',
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts
